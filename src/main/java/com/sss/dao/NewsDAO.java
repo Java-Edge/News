@@ -2,7 +2,6 @@ package com.sss.dao;
 
 import com.sss.model.News;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * Created by Shusheng Shi on 2017/5/7-5
  */
 @Mapper
-@Component
+@Repository
 public interface NewsDAO {
     String TABLE_NAME = "news";
     String INSERT_FIELDS = " title, link, image, like_count, comment_count, created_date, user_id ";
