@@ -1,5 +1,6 @@
 package com.sss.controller;
 
+import com.sss.model.HostHolder;
 import com.sss.model.News;
 import com.sss.model.ViewObject;
 import com.sss.service.NewsService;
@@ -25,6 +26,9 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HostHolder hostHolder;
 
     public List<ViewObject> getNews(int userId, int offset, int limit) {
         List<News> newsList = newsService.getLatestNews(userId, offset, limit);

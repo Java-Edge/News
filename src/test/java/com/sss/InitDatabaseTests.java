@@ -1,7 +1,9 @@
 package com.sss;
 
+import com.sss.dao.LoginTicketDAO;
 import com.sss.dao.NewsDAO;
 import com.sss.dao.UserDAO;
+import com.sss.model.LoginTicket;
 import com.sss.model.News;
 import com.sss.model.User;
 import com.sun.xml.internal.bind.v2.TODO;
@@ -31,6 +33,9 @@ public class InitDatabaseTests {
 
     @Autowired
     public NewsDAO newsDAO;
+
+    @Autowired
+    LoginTicketDAO loginTicketDAO;
 
     @Test
     public void contextLoads() {

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.jws.WebParam;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,18 +44,30 @@ public class LoginController {
      * @param username:用户名
      * @param password:密码
      * @param rememberme:记住密码
+     * @param response :使用response将这些数据写入cookie
      * @return
      */
     @RequestMapping(path = "/reg/", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
-                      @RequestParam(value = "rember", defaultValue = "0") int rememberme) {
+                      @RequestParam(value = "rember", defaultValue = "0") int rememberme,
+                      HttpServletResponse response) {
 
 
         try {
             Map<String, Object> map = userService.register(username, password);
-            if (map.isEmpty()) {
+//          注册之后自动登录成功,被下发ticket
+            if ((map.containsKey("ticket"))) {
+                Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
+                response.addCookie(cookie);
+//              设置此cookie全站有效
+                cookie.setPath("/");
+//              若用户选择记住密码,则将cookie有效期延长到五天,否则默认浏览器关闭就失效
+                if (rememberme > 0) {
+                    cookie.setMaxAge(3600 * 24 * 5);
+                }
+
                 return ToutiaoUtil.getJSONString(0, "注册成功");
             } else {
                 return ToutiaoUtil.getJSONString(1, map);
@@ -86,11 +100,13 @@ public class LoginController {
 
         try {
             Map<String, Object> map = userService.register(username, password);
-            if (map.isEmpty()) {
+//          若登录成功,则会被下发ticket
+            if (map.containsKey("ticket")) {
                 return ToutiaoUtil.getJSONString(0, "注册成功");
             } else {
                 return ToutiaoUtil.getJSONString(1, map);
             }
+
 
         } catch (Exception e) {
 //          注册异常时,须记录在日志内
