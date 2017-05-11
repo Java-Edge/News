@@ -4,20 +4,14 @@ package com.sss.interceptor;
  * Created by Shusheng Shi on 2017/5/10 21:28.
  */
 
-import com.sss.dao.LoginTicketDAO;
-import com.sss.dao.UserDAO;
 import com.sss.model.HostHolder;
-import com.sss.model.LoginTicket;
-import com.sss.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 
 /**
  * 权限验证
@@ -26,12 +20,6 @@ import java.util.Date;
  */
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor {
-
-    @Autowired
-    private LoginTicketDAO loginTicketDAO;
-
-    @Autowired
-    private UserDAO userDAO;
 
     @Autowired
     private HostHolder hostHolder;
