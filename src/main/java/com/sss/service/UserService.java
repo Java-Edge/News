@@ -102,6 +102,15 @@ public class UserService {
         return map;
     }
 
+
+    /**
+     * 登出
+     * @param ticket:由前端传入,将其过期失效
+     */
+    public void logout(String ticket) {
+        loginTicketDAO.updateStatus("ticket", 1);
+    }
+
     private String addLoginTicket(int userId) {
         LoginTicket ticket = new LoginTicket();
         ticket.setUserId(userId);

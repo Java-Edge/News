@@ -1,9 +1,6 @@
 package com.sss.controller;
 
 import com.sss.aspect.LogAspect;
-import com.sss.model.News;
-import com.sss.model.ViewObject;
-import com.sss.service.NewsService;
 import com.sss.service.UserService;
 import com.sss.util.ToutiaoUtil;
 import org.slf4j.Logger;
@@ -11,17 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.jws.WebParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +29,7 @@ public class LoginController {
     //    此函数直接调用各种service即可
 
     /**
-     * 注册功能
+     * 注册
      * @param model:模型
      * @param username:用户名
      * @param password:密码
@@ -84,7 +74,7 @@ public class LoginController {
     //    此函数直接调用各种service即可
 
     /**
-     * 登录功能
+     * 登录
      * @param model
      * @param username
      * @param password
@@ -116,5 +106,15 @@ public class LoginController {
 
     }
 
+    /**
+     * 登出
+     * @param ticket :token值
+     * @return :重定向到首页
+     */
+    @RequestMapping(path = "/logout/", method = {RequestMethod.GET, RequestMethod.POST})
+    public String logout(@CookieValue("ticket") String ticket) {
+        userService.logout(ticket);
+        return "redirect:/";
+    }
 
 }
