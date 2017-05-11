@@ -1,5 +1,6 @@
 package com.sss.configuration;
 
+import com.sss.interceptor.LoginRequiredInterceptor;
 import com.sss.interceptor.PassportInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,10 +23,15 @@ public class ToutiaoConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     private PassportInterceptor passportInterceptor;
 
+    @Autowired
+    private LoginRequiredInterceptor loginRequiredInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //TODO:回调设计模式研究
         registry.addInterceptor(passportInterceptor);
+//      访问setting*页面时才调用此拦截器
+        registry.addInterceptor(loginRequiredInterceptor).addPathPatterns("/setting*");
         super.addInterceptors(registry);
     }
 }

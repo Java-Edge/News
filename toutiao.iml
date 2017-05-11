@@ -78,5 +78,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.3.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.31" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:1.5.3.RELEASE" level="project" />
   </component>
 </module>
