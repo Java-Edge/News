@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * 此类表示当前用户
+ * 表当前用户
  */
 @Component
 public class HostHolder {

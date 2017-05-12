@@ -24,7 +24,17 @@ public class NewsService {
     @Autowired
     private NewsDAO newsDAO;
 
-    //    获取最新咨询
+    /**
+     * 添加咨询
+     * @param news
+     * @return
+     */
+    public int addNews(News news) {
+        newsDAO.addNews(news);
+        return news.getId();
+    }
+
+//  获取最新咨询
     public List<News> getLatestNews(int userId, int offset, int limit) {
         return newsDAO.selectByUserIdAndOffset(userId, offset, limit);
     }

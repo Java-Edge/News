@@ -21,6 +21,7 @@ CREATE TABLE `news` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- TODO:utf-8在此处的作用
 
 DROP TABLE IF EXISTS `login_ticket`;
 CREATE TABLE `login_ticket` (

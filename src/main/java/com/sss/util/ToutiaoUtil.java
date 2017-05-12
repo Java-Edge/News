@@ -14,6 +14,8 @@ import java.util.Map;
 public class ToutiaoUtil {
     private static final Logger logger = LoggerFactory.getLogger(ToutiaoUtil.class);
 
+    public static String QINIU_DOMAIN_PRE = "";
+    //TODO:注册七牛云存储
     public static String TOUTIAO_DOMAIN = "http://127.0.0.1:8080/";
 //  文件上传目录
     public static String IMAGE_DIR = "F:/upload/";
