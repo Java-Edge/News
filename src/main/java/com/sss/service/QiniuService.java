@@ -44,8 +44,7 @@ public class QiniuService {
         return auth.uploadToken(bucketname);
     }
 
-    public String saveImage(MultipartFile file) throws IOException
-    {
+    public String saveImage(MultipartFile file) throws IOException {
         try {
             int dotPos = file.getOriginalFilename().lastIndexOf(".");
             if (dotPos < 0) {

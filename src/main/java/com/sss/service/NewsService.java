@@ -2,6 +2,7 @@ package com.sss.service;
 
 import com.sss.dao.NewsDAO;
 import com.sss.model.News;
+import com.sss.model.User;
 import com.sss.util.ToutiaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,4 +68,9 @@ public class NewsService {
         return ToutiaoUtil.TOUTIAO_DOMAIN + "image?name=" + fileName;
 
     }
+
+    public News getById(int newsId) {
+        return newsDAO.getById(newsId);
+    }
+
 }

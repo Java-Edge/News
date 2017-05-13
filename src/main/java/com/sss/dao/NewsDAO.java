@@ -24,4 +24,6 @@ public interface NewsDAO {
 //    分页:通过xml配置文件读取,于是去创建此xml文件吧!
     List<News> selectByUserIdAndOffset(@Param("userId") int userId, @Param("offset") int offset,
                                        @Param("limit") int limit);
+
+    News getById(int newsId);
 }
