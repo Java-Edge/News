@@ -1,5 +1,6 @@
 package com.sss.service;
 
+import com.sss.dao.CommentDAO;
 import com.sss.dao.NewsDAO;
 import com.sss.model.News;
 import com.sss.model.User;
@@ -71,6 +72,10 @@ public class NewsService {
 
     public News getById(int newsId) {
         return newsDAO.getById(newsId);
+    }
+
+    public int updateCommentCount(int id, int count) {
+        return newsDAO.updateCommentCount(id, count);
     }
 
 }

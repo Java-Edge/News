@@ -13,141 +13,178 @@
     <schema id="7" parent="1" name="reusebook"/>
     <schema id="8" parent="1" name="sys"/>
     <schema id="9" parent="1" name="world"/>
-    <table id="10" parent="2" name="login_ticket"/>
-    <table id="11" parent="2" name="news"/>
-    <table id="12" parent="2" name="user"/>
-    <column id="13" parent="10" name="id">
+    <table id="10" parent="2" name="comment"/>
+    <table id="11" parent="2" name="login_ticket"/>
+    <table id="12" parent="2" name="news"/>
+    <table id="13" parent="2" name="user"/>
+    <column id="14" parent="10" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="14" parent="10" name="user_id">
+    <column id="15" parent="10" name="content">
       <Position>2</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
+      <DataType>text|0</DataType>
     </column>
-    <column id="15" parent="10" name="ticket">
+    <column id="16" parent="10" name="createdDate">
       <Position>3</Position>
-      <DataType>varchar(45)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="16" parent="10" name="expired">
-      <Position>4</Position>
       <DataType>datetime|0</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <column id="17" parent="10" name="status">
+    <column id="17" parent="10" name="entity_id">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="18" parent="10" name="entity_type">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
+    </column>
+    <column id="19" parent="10" name="status">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <index id="18" parent="10" name="ticket_UNIQUE">
-      <ColNames>ticket</ColNames>
-      <Unique>1</Unique>
+    <index id="20" parent="10" name="entity_index">
+      <ColNames>entity_id
+entity_type</ColNames>
     </index>
-    <key id="19" parent="10" name="PRIMARY">
+    <key id="21" parent="10" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="20" parent="10" name="ticket_UNIQUE">
-      <ColNames>ticket</ColNames>
-      <UnderlyingIndexName>ticket_UNIQUE</UnderlyingIndexName>
-    </key>
-    <column id="21" parent="11" name="id">
+    <column id="22" parent="11" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="22" parent="11" name="title">
+    <column id="23" parent="11" name="user_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="24" parent="11" name="ticket">
+      <Position>3</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="11" name="expired">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="11" name="status">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="27" parent="11" name="ticket_UNIQUE">
+      <ColNames>ticket</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="28" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="29" parent="11" name="ticket_UNIQUE">
+      <ColNames>ticket</ColNames>
+      <UnderlyingIndexName>ticket_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="30" parent="12" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="31" parent="12" name="title">
       <Position>2</Position>
       <DataType>varchar(126)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="23" parent="11" name="link">
+    <column id="32" parent="12" name="link">
       <Position>3</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="24" parent="11" name="image">
+    <column id="33" parent="12" name="image">
       <Position>4</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="25" parent="11" name="like_count">
+    <column id="34" parent="12" name="like_count">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="26" parent="11" name="comment_count">
+    <column id="35" parent="12" name="comment_count">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="27" parent="11" name="created_date">
+    <column id="36" parent="12" name="created_date">
       <Position>7</Position>
       <DataType>datetime|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="28" parent="11" name="user_id">
+    <column id="37" parent="12" name="user_id">
       <Position>8</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="29" parent="11" name="newscol">
+    <column id="38" parent="12" name="newscol">
       <Position>9</Position>
       <DataType>varchar(45)|0</DataType>
     </column>
-    <key id="30" parent="11" name="PRIMARY">
+    <key id="39" parent="12" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="31" parent="12" name="id">
+    <column id="40" parent="13" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="32" parent="12" name="name">
+    <column id="41" parent="13" name="name">
       <Position>2</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="33" parent="12" name="password">
+    <column id="42" parent="13" name="password">
       <Position>3</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="34" parent="12" name="salt">
+    <column id="43" parent="13" name="salt">
       <Position>4</Position>
       <DataType>varchar(32)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="35" parent="12" name="head_url">
+    <column id="44" parent="13" name="head_url">
       <Position>5</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="36" parent="12" name="name_UNIQUE">
+    <index id="45" parent="13" name="name_UNIQUE">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="37" parent="12" name="PRIMARY">
+    <key id="46" parent="13" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id
 password</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="38" parent="12" name="name_UNIQUE">
+    <key id="47" parent="13" name="name_UNIQUE">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name_UNIQUE</UnderlyingIndexName>
     </key>

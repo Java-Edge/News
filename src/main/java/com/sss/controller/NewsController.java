@@ -1,7 +1,7 @@
 package com.sss.controller;
 
-import com.sss.model.HostHolder;
-import com.sss.model.News;
+import com.sss.model.*;
+import com.sss.service.CommentService;
 import com.sss.service.NewsService;
 import com.sss.service.QiniuService;
 import com.sss.service.UserService;
@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
+import java.util.*;
 
 /**
  * Created by Shusheng Shi on 2017/5/11 19:35.
@@ -30,6 +31,9 @@ public class NewsController {
 
     @Autowired
     private QiniuService qiniuService;
+
+    @Autowired
+    private CommentService commentService;
 
 //  当前用户是否处于登录状态
     @Autowired
@@ -121,9 +125,58 @@ public class NewsController {
         News news = newsService.getById(newsId);
         if (news != null) {
             //评论
+//          找出资讯关联的所有评论
+            List<Comment> comments = commentService.getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
+
+            //同时需要用户的头像
+            List<ViewObject> commentVOs = new ArrayList<>();
+            for (Comment comment : comments) {
+                ViewObject vo = new ViewObject();
+                vo.set("comment", comment);
+                vo.set("user",userService.getUser(comment.getUserId()) );
+                commentVOs.add(vo);
+            }
+            model.addAttribute("comments", commentVOs);
         }
         model.addAttribute("news", news);
+//      资讯作者:通过咨询获取此用户ID进而获得此用户
         model.addAttribute("owner", userService.getUser(news.getUserId()));
         return "detail";
     }
+
+    /**
+     * 增加评论
+     * @param newsId  所关联的资讯ID
+     * @param content 评论内容
+     */
+    @RequestMapping(path = "/addComment", method = RequestMethod.POST)
+    public String addComment(@RequestParam("newsId") int newsId,
+                             @RequestParam("content") String content) {
+        try {
+//          过滤content
+            Comment comment = new Comment();
+            comment.setUserId(hostHolder.getUser().getId());
+            comment.setContent(content);
+            comment.setEntityId(newsId);
+            comment.setEntityType(EntityType.ENTITY_NEWS);
+            comment.setCreatedDate(new Date());
+            comment.setStatus(0);
+            commentService.addComment(comment);
+
+//          更新news里的评论数量
+//          此处comment.getEntityId()其实就是参数newsId
+            int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
+            newsService.updateCommentCount(comment.getEntityId(), count);
+//          如何异步化
+
+
+
+
+        } catch (Exception e) {
+            logger.error("增加评论失败", e.getMessage());
+        }
+//      评论增加完毕后,刷新回到此资讯页面
+        return "redirect:/news/" + String.valueOf(newsId);
+    }
+
 }
