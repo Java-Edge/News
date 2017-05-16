@@ -71,6 +71,15 @@
             <version>7.1.1</version>
         </dependency>
 
+        <!--导入redis-->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
     </dependencies>
 
 	<build>

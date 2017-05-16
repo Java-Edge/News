@@ -1,8 +1,10 @@
 package com.sss.controller;
 
+import com.sss.model.EntityType;
 import com.sss.model.HostHolder;
 import com.sss.model.News;
 import com.sss.model.ViewObject;
+import com.sss.service.LikeService;
 import com.sss.service.NewsService;
 import com.sss.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,12 @@ public class HomeController {
     @Autowired
     private HostHolder hostHolder;
 
+    @Autowired
+    private LikeService likeService;
+
     public List<ViewObject> getNews(int userId, int offset, int limit) {
         List<News> newsList = newsService.getLatestNews(userId, offset, limit);
+        int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
 //        页面需要显示用户头像,而头像在用户表中
         List<ViewObject> vos = new ArrayList<>();
         for (News news : newsList) {
@@ -39,6 +45,13 @@ public class HomeController {
             vo.set("news", news);
 //          通过新闻中的用户id获取userID
             vo.set("user", userService.getUser(news.getUserId()));
+
+//          登录状态
+            if (localUserId != 0) {
+                vo.set("like", likeService.getLikeStatus(localUserId, EntityType.ENTITY_NEWS, news.getId()));
+            } else {
+                vo.set("like", 0);
+            }
             vos.add(vo);
         }
         return vos;

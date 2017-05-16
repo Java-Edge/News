@@ -1,10 +1,7 @@
 package com.sss.controller;
 
 import com.sss.model.*;
-import com.sss.service.CommentService;
-import com.sss.service.NewsService;
-import com.sss.service.QiniuService;
-import com.sss.service.UserService;
+import com.sss.service.*;
 import com.sss.util.ToutiaoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +31,9 @@ public class NewsController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private LikeService likeService;
 
 //  当前用户是否处于登录状态
     @Autowired
@@ -123,10 +123,19 @@ public class NewsController {
     @ResponseBody
     public String newsDetail(@PathVariable("newsId") int newsId, Model model) {
         News news = newsService.getById(newsId);
+
         if (news != null) {
-            //评论
+
+            int localUserId = hostHolder.getUser().getId();
+            if (localUserId != 0) {
+                model.addAttribute("like", likeService.getLikeStatus(localUserId, EntityType.ENTITY_NEWS, news.getId()));
+            } else {
+                model.addAttribute("like", 0);
+            }
+
+//          评论
 //          找出资讯关联的所有评论
-            List<Comment> comments = commentService.getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
+            List<Comment> comments = commentService .getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
 
             //同时需要用户的头像
             List<ViewObject> commentVOs = new ArrayList<>();
@@ -138,6 +147,7 @@ public class NewsController {
             }
             model.addAttribute("comments", commentVOs);
         }
+
         model.addAttribute("news", news);
 //      资讯作者:通过咨询获取此用户ID进而获得此用户
         model.addAttribute("owner", userService.getUser(news.getUserId()));
