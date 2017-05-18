@@ -1,6 +1,9 @@
 package com.sss.controller;
 
 import com.sss.aspect.LogAspect;
+import com.sss.async.EventModel;
+import com.sss.async.EventProducer;
+import com.sss.async.EventType;
 import com.sss.service.UserService;
 import com.sss.util.ToutiaoUtil;
 import org.slf4j.Logger;
@@ -26,6 +29,10 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    //若有人登录，发送登录事件
+    @Autowired
+    private EventProducer eventProducer;
+
     //    此函数直接调用各种service即可
 
     /**
@@ -47,16 +54,22 @@ public class LoginController {
 
         try {
             Map<String, Object> map = userService.register(username, password);
-//          注册之后自动登录成功,被下发ticket
+            //注册之后自动登录成功,被下发ticket
             if ((map.containsKey("ticket"))) {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
-                response.addCookie(cookie);
-//              设置此cookie全站有效
+                //设置此cookie全站有效
                 cookie.setPath("/");
-//              若用户选择记住密码,则将cookie有效期延长到五天,否则默认浏览器关闭就失效
+                //若用户选择记住密码,则将cookie有效期延长到五天,否则默认浏览器关闭就失效
                 if (rememberme > 0) {
                     cookie.setMaxAge(3600 * 24 * 5);
                 }
+                response.addCookie(cookie);
+
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN).
+                        setActorId((int) map.get("userId")).
+                        setExt("username", "永生").
+                        //邮件发送目标地址
+                        setExt("email", "xxx@qq.com"));
 
                 return ToutiaoUtil.getJSONString(0, "注册成功");
             } else {

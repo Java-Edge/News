@@ -1,50 +1,59 @@
 package com.sss.async.handler;
 
+/**
+ * Created by Shusheng Shi on 2017/5/18 19:18.
+ */
+
 import com.sss.async.EventHandler;
 import com.sss.async.EventModel;
 import com.sss.async.EventType;
 import com.sss.model.Message;
-import com.sss.model.User;
 import com.sss.service.MessageService;
-import com.sss.service.UserService;
+import com.sss.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
- * Created by Shusheng Shi on 2017/5/17 21:05.
+ * 登录异常处理器
  */
 @Component
-public class LikeHandler implements EventHandler {
+public class LoginExceptionHandler implements EventHandler {
 
     @Autowired
     private MessageService messageService;
 
     @Autowired
-    private UserService userService;
+    private MailSender mailSender;
+
 
     @Override
     public void doHandle(EventModel model) {
+
+        //判断是否有异常登录
+        //发送站内信
         Message message = new Message();
+        //谁登录了就发给谁
+        message.setToId(model.getActorId());
+        message.setContent("你上次的登录ip异常");
         message.setFromId(3);
-        //点赞人
-        User user = userService.getUser(model.getActorId());
-        message.setContent("用户" + user.getName() + "赞了你的资讯,http:localhost:8080/news/" + model.getEntityId());
         message.setCreatedDate(new Date());
         messageService.addMessage(message);
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", model.getExt("username"));
+        mailSender.sendWithHTMLTemplate(model.getExt("email"), "登录异常", "mails/welcome.html", map);
     }
 
     /**
+     * 关注类型
      *
-     * @return 支持点赞事件
+     * @return
      */
     @Override
     public List<EventType> getSupportEventTypes() {
-        return Arrays.asList(EventType.LIKE);
+        return Arrays.asList(EventType.LOGIN);
     }
 
 }
